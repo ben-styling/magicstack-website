@@ -1,0 +1,46 @@
+@function strip-unit($number) {
+    @if type-of($number) == 'number' and not unitless($number) {
+        @return $number / ($number * 0 + 1);
+    }
+    @return $number;
+}
+
+@mixin minmax(
+    $property,
+    $minSize,
+    $maxSize,
+    $minScreen: 320px,
+    $maxScreen: 1920px
+) {
+    $unitlessMinSize: strip-unit($minSize);
+    $unitlessMaxSize: strip-unit($maxSize);
+    $unitlessMinScreen: strip-unit($minScreen);
+    $unitlessMaxScreen: strip-unit($maxScreen);
+    $delta: ($unitlessMinSize - $unitlessMaxSize) /
+        ($unitlessMinScreen - $unitlessMaxScreen);
+    $base: $unitlessMaxSize - ($delta * $unitlessMaxScreen);
+    $returnValue: calc(#{$base}px + #{(100 * $delta)}vw);
+    #{$property}: $minSize;
+    @media screen and (min-width: $minScreen) {
+        #{$property}: $returnValue;
+    }
+    @media screen and (min-width: $maxScreen) {
+        #{$property}: $maxSize;
+    }
+}
+
+@mixin buttonReset() {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+    -webkit-appearance: none;
+    text-decoration: none;
+}

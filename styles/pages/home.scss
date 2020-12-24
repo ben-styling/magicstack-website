@@ -1,0 +1,36 @@
+.hero {
+    width: 100%;
+    padding-bottom: $header-height;
+    padding-top: $header-height;
+
+    @media screen and (min-width: $md) {
+        display: flex;
+        height: calc(100vh - #{$header-height});
+        align-items: center;
+        > div {
+            max-width: 50%;
+        }
+    }
+}
+
+.heroSvg {
+    width: 100vw;
+    max-width: 100%;
+    @media screen and (min-width: $md) {
+        max-width: 50vw;
+    }
+}
+
+.like-magic {
+    background-color: $background;
+    min-height: calc(100vh - #{$header-height});
+    display: flex;
+    align-items: center;
+    padding: 10vw 0;
+    @include minmax('padding-top', 16px, 30px);
+}
+
+.like-magic__link {
+    display: inline-block;
+    margin-top: 2rem;
+}

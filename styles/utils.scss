@@ -1,0 +1,35 @@
+br.nobr,
+.nobr br {
+    display: none;
+    @media screen and (min-width: $md) {
+        display: block;
+    }
+}
+
+.center-h {
+    justify-self: center;
+}
+
+.grid--2x2 {
+    display: grid;
+    grid-gap: 2rem;
+    align-items: center;
+
+    @media screen and (min-width: $md) {
+        grid-template-columns: repeat(auto-fit, minmax(calc(50% - 2em), 1fr));
+    }
+
+    & + .grid {
+        margin-top: 30px;
+    }
+}
+
+.section {
+    @include minmax(margin-top, 30px, 120px);
+    @include minmax(margin-bottom, 30px, 120px);
+    + .section {
+        border-top: 1px solid rgba($black, 0.2);
+        margin-top: 0;
+        @include minmax(padding-top, 30px, 120px);
+    }
+}
