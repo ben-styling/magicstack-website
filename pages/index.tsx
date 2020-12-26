@@ -3,7 +3,9 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Hero from '../assets/hero.svg'
 import Develop from '../assets/develop.svg'
-import { GrServer } from 'react-icons/gr'
+import { GrServer, GrServerCluster } from 'react-icons/gr'
+import { VscVersions } from 'react-icons/vsc'
+import { RiTerminalBoxLine } from 'react-icons/ri'
 
 import { getGithubPreviewProps, parseJson } from 'next-tinacms-github'
 import { GetStaticProps } from 'next'
@@ -21,11 +23,39 @@ export default function Home({ file }: any) {
         fields: [
             { name: 'title', component: 'text' },
             { name: 'description', component: 'textarea' },
+
+            {
+                name: 'features',
+                component: 'group',
+                fields: [
+                    {
+                        name: 'icon',
+                        component: 'select',
+                        options: [
+                            'GrServer',
+                            'GrServerCluster',
+                            'VscVersions',
+                            'RiTerminalBoxLine',
+                        ],
+                    },
+                    {
+                        name: 'title',
+                        component: 'text',
+                    },
+                    {
+                        name: 'description',
+                        component: 'textarea',
+                    },
+                    {
+                        name: 'link',
+                        component: 'text',
+                    },
+                ],
+            },
         ],
     }
     const [data, form] = useGithubJsonForm(file, formOptions)
     usePlugin(form)
-
     useGithubToolbarPlugins()
 
     return (
@@ -77,7 +107,29 @@ export default function Home({ file }: any) {
                         </p>
 
                         <div className="featureCardGrid">
-                            {[0, 1, 2, 3, 4, 5].map(i => {
+                            {data.features?.map?.((f: any, index: number) => {
+                                return (
+                                    <div
+                                        key={f?.title || index}
+                                        className="featureCardContainer">
+                                        <div className="featureCard">
+                                            <div className="featureCard__icon">
+                                                {f?.icon?.()}
+                                            </div>
+                                            <div className="featureCard__content">
+                                                <h2>{f?.title}</h2>
+                                                <p>{f?.description}</p>
+                                                {f?.link ? (
+                                                    <a href={f?.link}>
+                                                        Learn more &gt;
+                                                    </a>
+                                                ) : null}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                            {[0, 1].map(i => {
                                 return (
                                     <div
                                         key={i}
