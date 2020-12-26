@@ -45,7 +45,8 @@ export default class Site extends App {
             toolbar: props.pageProps.preview,
         })
 
-        this.displayButton = props.router.asPath === '/?cms=' || props.router.asPath === '/?cms'
+        this.displayButton =
+            props.router.asPath === '/?cms=' || props.router.asPath === '/?cms'
 
         console.log(props.router.asPath)
     }

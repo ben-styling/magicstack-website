@@ -3,8 +3,11 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Hero from '../assets/hero.svg'
 import Develop from '../assets/develop.svg'
+// @ts-ignore
 import { GrServer, GrServerCluster } from 'react-icons/gr'
+// @ts-ignore
 import { VscVersions } from 'react-icons/vsc'
+// @ts-ignore
 import { RiTerminalBoxLine } from 'react-icons/ri'
 
 import { getGithubPreviewProps, parseJson } from 'next-tinacms-github'
@@ -108,28 +111,30 @@ export default function Home({ file }: any) {
                         </p>
 
                         <div className="featureCardGrid">
-                            {data.featureList?.map?.((f: any, index: number) => {
-                                return (
-                                    <div
-                                        key={f?.title || index}
-                                        className="featureCardContainer">
-                                        <div className="featureCard">
-                                            <div className="featureCard__icon">
-                                                {f?.icon?.()}
-                                            </div>
-                                            <div className="featureCard__content">
-                                                <h2>{f?.title}</h2>
-                                                <p>{f?.description}</p>
-                                                {f?.link ? (
-                                                    <a href={f?.link}>
-                                                        Learn more &gt;
-                                                    </a>
-                                                ) : null}
+                            {data.featureList?.map?.(
+                                (f: any, index: number) => {
+                                    return (
+                                        <div
+                                            key={f?.title || index}
+                                            className="featureCardContainer">
+                                            <div className="featureCard">
+                                                <div className="featureCard__icon">
+                                                    {/* {f?.icon?.()} */}
+                                                </div>
+                                                <div className="featureCard__content">
+                                                    <h2>{f?.title}</h2>
+                                                    <p>{f?.description}</p>
+                                                    {f?.link ? (
+                                                        <a href={f?.link}>
+                                                            Learn more &gt;
+                                                        </a>
+                                                    ) : null}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                )
-                            })}
+                                    )
+                                },
+                            )}
                             {[0, 1].map(i => {
                                 return (
                                     <div
