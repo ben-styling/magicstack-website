@@ -13,11 +13,15 @@ import {
     useGithubJsonForm,
     useGithubToolbarPlugins,
 } from 'react-tinacms-github'
+import Text from '../components/Text'
 
 export default function Home({ file }: any) {
     const formOptions = {
         label: 'Home Page',
-        fields: [{ name: 'title', component: 'text' }],
+        fields: [
+            { name: 'title', component: 'text' },
+            { name: 'description', component: 'textarea' },
+        ],
     }
     const [data, form] = useGithubJsonForm(file, formOptions)
     usePlugin(form)
@@ -41,18 +45,8 @@ export default function Home({ file }: any) {
                 <section className="container">
                     <div className="hero">
                         <div>
-                            <h1>
-                                {data?.title}
-                                The all in one solution for local development
-                            </h1>
-                            <p className="is-large">
-                                Restarting PHP is a thing of the past with
-                                multi-PHP versions.
-                                <br />
-                                Find bliss with a pre-configured development
-                                environment, automatic DNS resolution, ssl
-                                certificates, aliases and much more!
-                            </p>
+                            <h1>{data?.title}</h1>
+                            <Text className="is-large">{data.description}</Text>
                             <div className="buttonGroup">
                                 <a
                                     className="button button--red"

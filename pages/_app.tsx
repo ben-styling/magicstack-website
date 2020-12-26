@@ -10,6 +10,7 @@ import type { AppProps } from 'next/app'
 
 export default class Site extends App {
     cms: TinaCMS
+    displayButton: boolean
 
     constructor(props: AppProps) {
         super(props)
@@ -43,6 +44,10 @@ export default class Site extends App {
             sidebar: props.pageProps.preview,
             toolbar: props.pageProps.preview,
         })
+
+        this.displayButton = props.router.asPath === '/?cms=' || props.router.asPath === '/?cms'
+
+        console.log(props.router.asPath)
     }
 
     render() {
@@ -56,10 +61,7 @@ export default class Site extends App {
                     onLogin={onLogin}
                     onLogout={onLogout}
                     error={pageProps.error}>
-                    {/**
-                     * 6. Add a button for entering Preview/Edit Mode
-                     */}
-                    <EditLink cms={this.cms} />
+                    <EditLink cms={this.cms} display={this.displayButton} />
                     <Component {...pageProps} />
                 </TinacmsGithubProvider>
             </TinaProvider>
@@ -90,11 +92,15 @@ const onLogout = () => {
 
 export interface EditLinkProps {
     cms: TinaCMS
+    display: boolean
 }
 
-export const EditLink = ({ cms }: EditLinkProps) => {
+export const EditLink = ({ cms, display }: EditLinkProps) => {
     return (
-        <button onClick={() => cms.toggle()}>
+        <button
+            onClick={() => cms.toggle()}
+            className="site-edit-button"
+            style={{ display: display ? 'block' : 'none' }}>
             {cms.enabled ? 'Exit Edit Mode' : 'Edit This Site'}
         </button>
     )
