@@ -5,7 +5,12 @@ import Hero from '../assets/hero.svg'
 import Develop from '../assets/develop.svg'
 import { GrServer } from 'react-icons/gr'
 
-export default function Home() {
+import { getGithubPreviewProps, parseJson } from 'next-tinacms-github'
+import { GetStaticProps } from 'next'
+
+export default function Home({ file }: any) {
+    const data = file?.data
+
     return (
         <>
             <Head>
@@ -24,6 +29,7 @@ export default function Home() {
                     <div className="hero">
                         <div>
                             <h1>
+                                {data?.title}
                                 The all in one solution for local development
                             </h1>
                             <p className="is-large">
@@ -150,4 +156,28 @@ export default function Home() {
             </div>
         </>
     )
+}
+
+export const getStaticProps: GetStaticProps = async function ({
+    preview,
+    previewData,
+}) {
+    if (preview) {
+        return getGithubPreviewProps({
+            ...previewData,
+            fileRelativePath: 'content/home.json',
+            parse: parseJson,
+        })
+    }
+    return {
+        props: {
+            sourceProvider: null,
+            error: null,
+            preview: false,
+            file: {
+                fileRelativePath: 'content/home.json',
+                data: (await import('../content/home.json')).default,
+            },
+        },
+    }
 }
