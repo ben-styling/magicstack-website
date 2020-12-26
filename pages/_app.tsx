@@ -6,11 +6,12 @@ import {
     GithubMediaStore,
 } from 'react-tinacms-github'
 import '../styles/global.scss'
+import type { AppProps } from 'next/app'
 
 export default class Site extends App {
     cms: TinaCMS
 
-    constructor(props) {
+    constructor(props: AppProps) {
         super(props)
 
         const github = new GithubClient({
