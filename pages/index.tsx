@@ -25,8 +25,8 @@ export default function Home({ file }: any) {
             { name: 'description', component: 'textarea' },
 
             {
-                name: 'features',
-                component: 'group',
+                name: 'featureList',
+                component: 'group-list',
                 fields: [
                     {
                         name: 'icon',
@@ -55,6 +55,7 @@ export default function Home({ file }: any) {
         ],
     }
     const [data, form] = useGithubJsonForm(file, formOptions)
+    console.log(data)
     usePlugin(form)
     useGithubToolbarPlugins()
 
@@ -107,7 +108,7 @@ export default function Home({ file }: any) {
                         </p>
 
                         <div className="featureCardGrid">
-                            {data.features?.map?.((f: any, index: number) => {
+                            {data.featureList?.map?.((f: any, index: number) => {
                                 return (
                                     <div
                                         key={f?.title || index}
