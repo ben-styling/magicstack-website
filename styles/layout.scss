@@ -26,6 +26,22 @@
     z-index: 800;
 }
 
+.site-nav {
+    display: flex;
+    align-items: center;
+    a:not(.button) {
+        display: none;
+        @media screen and (min-width: $md) {
+            display: block;
+            margin-right: 32px;
+            color: $black;
+            &:hover {
+                color: $red;
+            }
+        }
+    }
+}
+
 .footer {
     width: 100%;
     padding: 24px 15px 20px;

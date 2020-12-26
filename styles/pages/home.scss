@@ -34,3 +34,194 @@
     display: inline-block;
     margin-top: 2rem;
 }
+
+// Hero animations
+
+@keyframes plantSway {
+    0% {
+        transform: rotate(5deg);
+    }
+    50% {
+        transform: rotate(-5deg);
+    }
+    100% {
+        transform: rotate(5deg);
+    }
+}
+
+#Plant {
+    transform-origin: center bottom;
+    transform-box: fill-box;
+    animation: plantSway 3s infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes blink {
+    0%,
+    29% {
+        transform: scale(1, 1);
+    }
+    30% {
+        transform: scale(1, 0.1);
+    }
+    31%,
+    32% {
+        transform: scale(1, 1);
+    }
+    33% {
+        transform: scale(1, 0.1);
+    }
+    34%,
+    100% {
+        transform: scale(1, 1);
+    }
+}
+#eyeball {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: blink 15s infinite;
+    animation-timing-function: ease-in-out;
+}
+@keyframes iris {
+    0%,
+    29% {
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(55%);
+    }
+    31%,
+    32% {
+        transform: translateY(0);
+    }
+    33% {
+        transform: translateY(55%);
+    }
+    34% {
+        transform: translateY(0);
+    }
+
+    45% {
+        transform: none;
+    }
+    50%,
+    55% {
+        transform: translate(-40%, 10%);
+    }
+
+    60%,
+    70% {
+        transform: translate(140%, -10%);
+    }
+    75%,
+    100% {
+        transform: none;
+    }
+}
+
+#iris {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: iris 15s infinite;
+    animation-timing-function: ease-in-out;
+}
+@keyframes mouth {
+    0%,
+    45% {
+        transform: translate(0, 0) scale(1);
+    }
+    50%,
+    55% {
+        transform: translate(-70%, -40%) rotate(20deg) scale(0.45);
+    }
+    60%,
+    70% {
+        transform: translate(60%, -30%) scale(0.7);
+    }
+    75%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+}
+
+#mouth {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: mouth 15s infinite;
+    animation-timing-function: ease-in-out;
+}
+
+#eye-2 {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: blink 10s infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes box-outline {
+    0%,
+    100% {
+        transform: translate(10%);
+    }
+    50% {
+        transform: translateX(-10%);
+    }
+}
+
+@keyframes arm-1 {
+    0%,
+    100% {
+        transform: rotate(10deg);
+    }
+    50% {
+        transform: rotate(-10deg);
+    }
+}
+
+#arm-1 {
+    transform-origin: center bottom;
+    transform-box: fill-box;
+    animation: arm-1 6s infinite;
+    animation-timing-function: ease-in-out;
+}
+
+#box-outline {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: box-outline 6s infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes box {
+    0%,
+    100% {
+        transform: translateX(-10%);
+    }
+    50% {
+        transform: translate(10%);
+    }
+}
+
+@keyframes arm-2 {
+    0%,
+    100% {
+        transform: rotate(-10deg);
+    }
+    50% {
+        transform: rotate(10deg);
+    }
+}
+
+#arm-2 {
+    transform-origin: center bottom;
+    transform-box: fill-box;
+    animation: arm-2 6s infinite;
+    animation-timing-function: ease-in-out;
+}
+
+#box {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: box 6s infinite;
+    animation-timing-function: ease-in-out;
+}
