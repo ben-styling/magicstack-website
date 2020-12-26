@@ -8,8 +8,21 @@ import { GrServer } from 'react-icons/gr'
 import { getGithubPreviewProps, parseJson } from 'next-tinacms-github'
 import { GetStaticProps } from 'next'
 
+import { usePlugin } from 'tinacms'
+import {
+    useGithubJsonForm,
+    useGithubToolbarPlugins,
+} from 'react-tinacms-github'
+
 export default function Home({ file }: any) {
-    const data = file?.data
+    const formOptions = {
+        label: 'Home Page',
+        fields: [{ name: 'title', component: 'text' }],
+    }
+    const [data, form] = useGithubJsonForm(file, formOptions)
+    usePlugin(form)
+
+    useGithubToolbarPlugins()
 
     return (
         <>
