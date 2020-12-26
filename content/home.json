@@ -2,8 +2,8 @@
   "title": "The all in one solution for local development",
   "description": "Restarting PHP is a thing of the past with multi-PHP versions.\nFind bliss with a pre-configured development environment, automatic DNS resolution, ssl certificates, aliases and much more!\ntest",
   "features": {
-    "title": "Test",
-    "description": "test",
-    "icon": "GrServerCluster"
+    "title": "Auto DNS",
+    "description": "Creating a new project just requires you to create a new folder on the filesystem. No more messing with your hosts file every time.",
+    "icon": "GrServer"
   }
 }
