@@ -4,6 +4,7 @@
   "features": {
     "title": "Auto DNS",
     "description": "Creating a new project just requires you to create a new folder on the filesystem. No more messing with your hosts file every time.",
-    "icon": "GrServer"
+    "icon": "GrServer",
+    "link": "test"
   }
 }
