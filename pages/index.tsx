@@ -4,11 +4,7 @@ import Footer from '../components/Footer'
 import Hero from '../assets/hero.svg'
 import Develop from '../assets/develop.svg'
 import dynamic from 'next/dynamic'
-import {
-    getGithubFile,
-    getGithubPreviewProps,
-    parseJson,
-} from 'next-tinacms-github'
+import { getGithubPreviewProps, parseJson } from 'next-tinacms-github'
 import { GetStaticProps } from 'next'
 
 import { usePlugin } from 'tinacms'
