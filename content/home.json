@@ -25,12 +25,12 @@
     {
       "title": "NodeJS, npm with nvm",
       "description": "NVM installed by default. Get setup an going within minutes.",
-      "icon": "terminal"
+      "icon": "node"
     },
     {
       "title": "SMTP with email",
       "description": "Catch your development emails with the builtin SMTP mail server, and view them easily with webmail.",
-      "icon": "terminal"
+      "icon": "mail"
     }
   ],
   "section1": {
