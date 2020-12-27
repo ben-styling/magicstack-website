@@ -74,6 +74,14 @@ const contentFields = [
                         label: 'terminal',
                         value: 'terminal',
                     },
+                    {
+                        label: 'node',
+                        value: 'node',
+                    },
+                    {
+                        label: 'mail',
+                        value: 'mail',
+                    },
                 ],
             },
             {
