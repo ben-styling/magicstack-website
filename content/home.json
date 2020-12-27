@@ -44,5 +44,7 @@
   "section2": {
     "title": "Experience zero\nconfig bliss",
     "description": "magicSTACK has everything you need \nfor modern web development."
-  }
+  },
+  "seoTitle": "Full stack dev environment for laravel, react, node, and much more!",
+  "seoDescription": "magicSTACK is the all in one solution for local development. Install within minutes, and get going FAST."
 }
