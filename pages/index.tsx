@@ -1,15 +1,14 @@
+import React from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Hero from '../assets/hero.svg'
 import Develop from '../assets/develop.svg'
-// @ts-ignore
-import { GrServer, GrServerCluster } from 'react-icons/gr'
-// @ts-ignore
-import { VscVersions } from 'react-icons/vsc'
-// @ts-ignore
-import { RiTerminalBoxLine } from 'react-icons/ri'
-
-import { getGithubPreviewProps, parseJson } from 'next-tinacms-github'
+import dynamic from 'next/dynamic'
+import {
+    getGithubFile,
+    getGithubPreviewProps,
+    parseJson,
+} from 'next-tinacms-github'
 import { GetStaticProps } from 'next'
 
 import { usePlugin } from 'tinacms'
@@ -18,59 +17,107 @@ import {
     useGithubToolbarPlugins,
 } from 'react-tinacms-github'
 import Text from '../components/Text'
+import Head from 'next/head'
 
-export default function Home({ file, cms }: any) {
-    const formOptions = {
-        label: 'Home Page',
+const renderFeatureCard = (f: any, index: number) => {
+    const Icon = dynamic(
+        () => import(`../assets/icons/${f?.icon || 'terminal'}.svg`),
+    )
+    return (
+        <div key={f?.title || index} className="featureCardContainer">
+            <div className="featureCard">
+                <div className="featureCard__icon">
+                    <Icon />
+                </div>
+                <div className="featureCard__content">
+                    <h2>{f?.title}</h2>
+                    <p>{f?.description}</p>
+                    {f?.link ? <a href={f?.link}>Learn more &gt;</a> : null}
+                </div>
+            </div>
+        </div>
+    )
+}
+
+const fields = [
+    { name: 'title', component: 'text' },
+    { name: 'description', component: 'textarea' },
+    { name: 'getStartedLink', component: 'text' },
+    { name: 'githubLink', component: 'text' },
+    { name: 'docsLink', component: 'text' },
+
+    {
+        name: 'featureList',
+        component: 'group-list',
         fields: [
-            { name: 'title', component: 'text' },
-            { name: 'description', component: 'textarea' },
-
             {
-                name: 'featureList',
-                component: 'group-list',
-                fields: [
+                name: 'icon',
+                component: 'select',
+                options: [
                     {
-                        name: 'icon',
-                        component: 'select',
-                        options: [
-                            'GrServer',
-                            'GrServerCluster',
-                            'VscVersions',
-                            'RiTerminalBoxLine',
-                        ],
+                        label: 'server',
+                        value: 'server',
                     },
                     {
-                        name: 'title',
-                        component: 'text',
+                        label: 'serverCluster',
+                        value: 'serverCluster',
                     },
                     {
-                        name: 'description',
-                        component: 'textarea',
+                        label: 'versions',
+                        value: 'versions',
                     },
                     {
-                        name: 'link',
-                        component: 'text',
+                        label: 'terminal',
+                        value: 'terminal',
                     },
                 ],
             },
+            {
+                name: 'title',
+                component: 'text',
+            },
+            {
+                name: 'description',
+                component: 'textarea',
+            },
+            {
+                name: 'link',
+                component: 'text',
+            },
         ],
+    },
+]
+
+export default function Home({ homeFile, globalFile, cms }: any) {
+    const formOptions = {
+        label: 'Home Page',
+        fields,
     }
-    const [data, form] = useGithubJsonForm(file, formOptions)
-    console.log(data)
-    usePlugin(form)
+    const [content, contentForm] = useGithubJsonForm(homeFile, formOptions)
+    usePlugin(contentForm)
+    const [globalContent, globalContentForm] = useGithubJsonForm(globalFile, {
+        label: 'Global',
+        fields: [{ name: 'docsLink', component: 'text' }],
+    })
+    usePlugin(globalContentForm)
+    console.log(globalContent)
     useGithubToolbarPlugins()
 
     return (
         <>
+            <Head>
+                <title>magicSTACK | Configure less</title>
+            </Head>
             <Header />
 
             <div className="site">
                 <section className="container">
                     <div className="hero">
                         <div>
-                            <h1>{data?.title}</h1>
-                            <Text className="is-large">{data.description}</Text>
+                            <h1>{content?.title}</h1>
+                            <Text className="is-large">
+                                {content.description}
+                            </Text>
                             <div className="buttonGroup">
                                 <a
                                     className="button button--red"
@@ -101,54 +148,7 @@ export default function Home({ file, cms }: any) {
                         </p>
 
                         <div className="featureCardGrid">
-                            {data.featureList?.map?.(
-                                (f: any, index: number) => {
-                                    return (
-                                        <div
-                                            key={f?.title || index}
-                                            className="featureCardContainer">
-                                            <div className="featureCard">
-                                                <div className="featureCard__icon">
-                                                    {/* {f?.icon?.()} */}
-                                                </div>
-                                                <div className="featureCard__content">
-                                                    <h2>{f?.title}</h2>
-                                                    <p>{f?.description}</p>
-                                                    {f?.link ? (
-                                                        <a href={f?.link}>
-                                                            Learn more &gt;
-                                                        </a>
-                                                    ) : null}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
-                                },
-                            )}
-                            {[0, 1].map(i => {
-                                return (
-                                    <div
-                                        key={i}
-                                        className="featureCardContainer">
-                                        <div className="featureCard">
-                                            <div className="featureCard__icon">
-                                                <GrServer />
-                                            </div>
-                                            <div className="featureCard__content">
-                                                <h2>Auto DNS</h2>
-                                                <p>
-                                                    Creating a new project just
-                                                    requires you to create a new
-                                                    folder on the filesystem. No
-                                                    more messing with your hosts
-                                                    file every time.
-                                                </p>
-                                                <a href="#">Learn more &gt;</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )
-                            })}
+                            {content.featureList?.map?.(renderFeatureCard)}
                         </div>
                         <a
                             className="like-magic__link"
@@ -218,20 +218,39 @@ export const getStaticProps: GetStaticProps = async function ({
     previewData,
 }) {
     if (preview) {
-        return getGithubPreviewProps({
+        const contentFile = await getGithubPreviewProps({
             ...previewData,
             fileRelativePath: 'content/home.json',
             parse: parseJson,
         })
+
+        console.log(contentFile)
+
+        return {
+            props: {
+                ...contentFile.props,
+                globalFile: (
+                    await getGithubPreviewProps({
+                        ...previewData,
+                        fileRelativePath: `content/global.json`,
+                        parse: parseJson,
+                    })
+                ).props.file,
+            },
+        }
     }
     return {
         props: {
             sourceProvider: null,
             error: null,
             preview: false,
-            file: {
+            homeFile: {
                 fileRelativePath: 'content/home.json',
                 data: (await import('../content/home.json')).default,
+            },
+            globalFile: {
+                fileRelativePath: 'content/global.json',
+                data: (await import('../content/global.json')).default,
             },
         },
     }

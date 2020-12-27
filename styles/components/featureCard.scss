@@ -28,11 +28,11 @@
         border-radius: 5px;
         background: rgba($black, 1);
         transition: 0.2s ease-in-out;
-        transform: translate(-0.3em,-0.3em);
+        transform: translate(-0.3em, -0.3em);
     }
     &:hover {
         &::before {
-            transform: translate(-0.5em,-0.5em);
+            transform: translate(-0.5em, -0.5em);
         }
     }
 }
@@ -42,6 +42,7 @@
     padding: 12px;
     border-radius: 5px;
     min-width: 100%;
+    height: 100%;
     border: 2px solid $black;
     background-color: white;
     position: relative;
@@ -58,8 +59,7 @@
         width: 100%;
         height: 100%;
         path {
-            stroke: $black;
-            stroke: white;
+            color: white;
         }
     }
 }

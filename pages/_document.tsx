@@ -62,7 +62,6 @@ export default class MyDocument extends Document {
                         as="font"
                         crossOrigin=""
                     />
-                    <title>magicSTACK | Configure less</title>
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
                 <body>

@@ -22,6 +22,7 @@ export default class Site extends App {
             baseBranch: process.env.BASE_BRANCH,
         })
 
+
         this.cms = new TinaCMS({
             enabled: !!props.pageProps.preview,
             apis: { github },

@@ -3,14 +3,34 @@
   "description": "Restarting PHP is a thing of the past with multi-PHP versions.\nFind bliss with a pre-configured development environment, automatic DNS resolution, ssl certificates, aliases and much more!test",
   "featureList": [
     {
-      "title": "Second item",
-      "description": "test"
+      "title": "Auto DNS",
+      "description": "Creating a new project just requires you to create a new folder on the filesystem. No more messing with your hosts file every time.",
+      "icon": "dns"
     },
     {
-      "title": "Test feature",
-      "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore perspiciatis est accusamus impedit quos laudantium magni? ",
-      "link": "#test",
-      "icon": "VscVersions"
+      "title": "Multiple PHP versions",
+      "description": "From 5.6 - 8.0, they all run at once, no more restarting or rebuilding.",
+      "icon": "versions"
+    },
+    {
+      "title": "Pre-configured databases",
+      "description": "MySQL, PostgreSQL, Redis, and Memcached; all included with sane default configs, yet highly flexible when needed.",
+      "icon": "serverCluster"
+    },
+    {
+      "title": "Powerful workspace",
+      "description": "Equipped with Oh My ZSH and many shortcut commands; type less, do more.",
+      "icon": "terminal"
+    },
+    {
+      "title": "NodeJS, npm with nvm",
+      "description": "NVM installed by default. Get setup an going within minutes.",
+      "icon": "terminal"
+    },
+    {
+      "title": "SMTP with email",
+      "description": "Catch your development emails with the builtin SMTP mail server, and view them easily with webmail.",
+      "icon": "terminal"
     }
   ]
 }
