@@ -22,13 +22,16 @@ export default class Site extends App {
             baseBranch: process.env.BASE_BRANCH,
         })
 
-
         this.cms = new TinaCMS({
             enabled: !!props.pageProps.preview,
             apis: { github },
             media: new GithubMediaStore(github),
             sidebar: props.pageProps.preview,
             toolbar: props.pageProps.preview,
+        })
+
+        import('react-tinacms-editor').then(({ MarkdownFieldPlugin }) => {
+            this.cms.plugins.add(MarkdownFieldPlugin)
         })
     }
 

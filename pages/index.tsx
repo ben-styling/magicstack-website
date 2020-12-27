@@ -1,19 +1,19 @@
+import Head from 'next/head'
+import Hero from '../assets/hero.svg'
+import Text from '../components/Text'
 import React from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import Hero from '../assets/hero.svg'
 import Develop from '../assets/develop.svg'
 import dynamic from 'next/dynamic'
-import { getGithubPreviewProps, parseJson } from 'next-tinacms-github'
-import { GetStaticProps } from 'next'
-
+import ReactMarkdown from 'react-markdown'
 import { usePlugin } from 'tinacms'
+import { GetStaticProps } from 'next'
+import { getGithubPreviewProps, parseJson } from 'next-tinacms-github'
 import {
     useGithubJsonForm,
     useGithubToolbarPlugins,
 } from 'react-tinacms-github'
-import Text from '../components/Text'
-import Head from 'next/head'
 
 const renderFeatureCard = (f: any, index: number) => {
     const Icon = dynamic(
@@ -35,7 +35,10 @@ const renderFeatureCard = (f: any, index: number) => {
     )
 }
 
-const fields = [
+const contentFields = [
+    { name: 'seoTitle', component: 'text' },
+    { name: 'seoDescription', component: 'text' },
+
     { name: 'title', component: 'text' },
     { name: 'description', component: 'textarea' },
     {
@@ -45,6 +48,8 @@ const fields = [
             'line breaks will be entered on desktop and removed at mobile.',
     },
     { name: 'featuresDescription', component: 'text' },
+    { name: 'featuresLinkText', component: 'text' },
+    { name: 'featuresLink', component: 'text' },
     {
         name: 'featureList',
         component: 'group-list',
@@ -85,21 +90,28 @@ const fields = [
             },
         ],
     },
+
+    { name: 'section1.title', component: 'textarea' },
+    { name: 'section1.description', component: 'markdown' },
+    { name: 'section2.title', component: 'textarea' },
+    { name: 'section2.description', component: 'textarea' },
 ]
 
+const globalFields = [
+    { name: 'siteName', component: 'text' },
+    { name: 'githubLink', component: 'text' },
+    { name: 'docsLink', component: 'text' },
+    { name: 'getStartedLink', component: 'text' },
+    { name: 'installLink', component: 'text' },
+]
 export default function Home({ homeFile, globalFile, cms }: any) {
     const homeFormOptions = {
         label: 'Home Page',
-        fields,
+        fields: contentFields,
     }
     const globalFormOptions = {
         label: 'Global',
-        fields: [
-            { name: 'siteName', component: 'text' },
-            { name: 'githubLink', component: 'text' },
-            { name: 'docsLink', component: 'text' },
-            { name: 'getStartedLink', component: 'text' },
-        ],
+        fields: globalFields,
     }
     const [content, contentForm] = useGithubJsonForm(homeFile, homeFormOptions)
     const [globalContent, globalContentForm] = useGithubJsonForm(
@@ -114,10 +126,17 @@ export default function Home({ homeFile, globalFile, cms }: any) {
         <>
             <Head>
                 <title>
-                    {globalContent.siteName
+                    {content.seoTitle ?? globalContent.siteName
                         ? globalContent.siteName
                         : 'magicSTACK | Configure less'}
                 </title>
+                <meta
+                    name="description"
+                    content={
+                        content.seoDescription ??
+                        'Restarting PHP is a thing of the past with multi-PHP versions. Find bliss with a pre-configured development environment, automatic DNS resolution, ssl certificates, aliases and much more!'
+                    }
+                />
             </Head>
             <Header />
 
@@ -173,11 +192,13 @@ export default function Home({ homeFile, globalFile, cms }: any) {
                         <div className="featureCardGrid">
                             {content.featureList?.map?.(renderFeatureCard)}
                         </div>
-                        <a
-                            className="like-magic__link"
-                            href="https://magicstack.app">
-                            And that's just the start... Read the full docs
-                        </a>
+                        {content.featuresLink && content.featuresLinkText ? (
+                            <a
+                                className="like-magic__link"
+                                href={content.featuresLink}>
+                                {content.featuresLinkText}
+                            </a>
+                        ) : null}
                     </div>
                 </section>
 
@@ -185,22 +206,23 @@ export default function Home({ homeFile, globalFile, cms }: any) {
                     <div className="grid--2x2">
                         <div>
                             <h2>
-                                Develop more, <br />
-                                Configure less
+                                {content.section1.title
+                                    ?.split?.('\n')
+                                    ?.map?.((item: string, index: number) => (
+                                        <React.Fragment key={index}>
+                                            {item}
+                                            <br />
+                                        </React.Fragment>
+                                    ))}
                             </h2>
-                            <p className="is-large">
-                                Install within minutes, and get going FAST. Easy
-                                to setup multiple machines and have everyone on
-                                the same page. Compatible with Linux, Windows*,
-                                and macOS.
-                                <br />
-                                <small>
-                                    *Works best on windows with WSL 2.
-                                </small>
-                            </p>
+                            <div className="is-large">
+                                <ReactMarkdown
+                                    source={content.section1.description}
+                                />
+                            </div>
                         </div>
                         <div>
-                            <Develop></Develop>
+                            <Develop />
                         </div>
                     </div>
                 </section>
@@ -208,20 +230,34 @@ export default function Home({ homeFile, globalFile, cms }: any) {
                 <section className="container section">
                     <div className="grid--2x2">
                         <h2>
-                            Experience zero <br />
-                            config bliss
+                            {content.section2?.title
+                                ?.split?.('\n')
+                                ?.map?.((item: string, index: number) => (
+                                    <React.Fragment key={index}>
+                                        {item}
+                                        <br />
+                                    </React.Fragment>
+                                ))}
                         </h2>
                         <div className="center-h">
                             <p className="is-large nobr">
-                                magicSTACK has everything you need <br /> for
-                                modern web development.
+                                {content.section2?.description
+                                    ?.split?.('\n')
+                                    ?.map?.((item: string, index: number) => (
+                                        <React.Fragment key={index}>
+                                            {item}
+                                            <br />
+                                        </React.Fragment>
+                                    ))}
                             </p>
                             <div className="buttonGroup">
-                                <a href="#" className="button button--red">
+                                <a
+                                    href={globalContent.installLink}
+                                    className="button button--red">
                                     Install now
                                 </a>
                                 <a
-                                    href="#"
+                                    href={globalContent.githubLink}
                                     className="button button--outline-black">
                                     View on GitHub
                                 </a>
