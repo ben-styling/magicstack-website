@@ -1,3 +1,5 @@
+import '../styles/global.scss'
+import type { AppProps } from 'next/app'
 import App from 'next/app'
 import { TinaCMS, TinaProvider } from 'tinacms'
 import {
@@ -5,12 +7,9 @@ import {
     TinacmsGithubProvider,
     GithubMediaStore,
 } from 'react-tinacms-github'
-import '../styles/global.scss'
-import type { AppProps } from 'next/app'
 
 export default class Site extends App {
     cms: TinaCMS
-    displayButton: boolean
 
     constructor(props: AppProps) {
         super(props)
@@ -23,47 +22,24 @@ export default class Site extends App {
             baseBranch: process.env.BASE_BRANCH,
         })
 
-        /**
-         * 1. Create the TinaCMS instance
-         */
         this.cms = new TinaCMS({
             enabled: !!props.pageProps.preview,
-            apis: {
-                /**
-                 * 2. Register the GithubClient
-                 */
-                github,
-            },
-            /**
-             * 3. Register the Media Store
-             */
+            apis: { github },
             media: new GithubMediaStore(github),
-            /**
-             * 4. Use the Sidebar and Toolbar
-             */
             sidebar: props.pageProps.preview,
             toolbar: props.pageProps.preview,
         })
-
-        this.displayButton =
-            props.router.asPath === '/?cms=' || props.router.asPath === '/?cms'
-
-        console.log(props.router.asPath)
     }
 
     render() {
         const { Component, pageProps } = this.props
         return (
-            /**
-             * 5. Wrap the page Component with the Tina and Github providers
-             */
             <TinaProvider cms={this.cms}>
                 <TinacmsGithubProvider
                     onLogin={onLogin}
                     onLogout={onLogout}
                     error={pageProps.error}>
-                    <EditLink cms={this.cms} display={this.displayButton} />
-                    <Component {...pageProps} />
+                    <Component {...pageProps} cms={this.cms} />
                 </TinacmsGithubProvider>
             </TinaProvider>
         )
@@ -85,24 +61,7 @@ const onLogin = async () => {
     else throw new Error(data.message)
 }
 
-const onLogout = () => {
-    return fetch(`/api/reset-preview`).then(() => {
-        window.location.reload()
-    })
-}
-
-export interface EditLinkProps {
-    cms: TinaCMS
-    display: boolean
-}
-
-export const EditLink = ({ cms, display }: EditLinkProps) => {
-    return (
-        <button
-            onClick={() => cms.toggle()}
-            className="site-edit-button"
-            style={{ display: display ? 'block' : 'none' }}>
-            {cms.enabled ? 'Exit Edit Mode' : 'Edit This Site'}
-        </button>
-    )
+const onLogout = async () => {
+    await fetch(`/api/reset-preview`)
+    window.location.reload()
 }

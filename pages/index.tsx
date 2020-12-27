@@ -20,7 +20,7 @@ import {
 } from 'react-tinacms-github'
 import Text from '../components/Text'
 
-export default function Home({ file }: any) {
+export default function Home({ file, cms }: any) {
     const formOptions = {
         label: 'Home Page',
         fields: [
@@ -217,7 +217,7 @@ export default function Home({ file }: any) {
                     </div>
                 </section>
 
-                <Footer />
+                <Footer cms={cms} />
             </div>
         </>
     )

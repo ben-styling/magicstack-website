@@ -67,7 +67,15 @@
             }
         }
         a:not(:last-child) {
-            margin-right: 16px;
+            margin-right: 24px;
+        }
+    }
+    .edit-content {
+        @include buttonReset();
+        margin-bottom: 4px;
+        font-weight: 500;
+        &:hover {
+            color: $blue;
         }
     }
 }
