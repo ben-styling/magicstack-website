@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Hero from '../assets/hero.svg'
@@ -64,7 +63,6 @@ export default function Home({ file, cms }: any) {
 
     return (
         <>
-
             <Header />
 
             <div className="site">
