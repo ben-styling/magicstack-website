@@ -32,5 +32,8 @@
       "description": "Catch your development emails with the builtin SMTP mail server, and view them easily with webmail.",
       "icon": "terminal"
     }
-  ]
+  ],
+  "section1": {
+    "description": "Test\n\n**Bold test**\n\nThis  \nIs a new line\n\nThis is a [link](google.com)"
+  }
 }
