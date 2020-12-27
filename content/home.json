@@ -3,9 +3,9 @@
   "description": "Restarting PHP is a thing of the past with multi-PHP versions.\nFind bliss with a pre-configured development environment, automatic DNS resolution, ssl certificates, aliases and much more!",
   "featureList": [
     {
-      "title": "test",
-      "description": "test",
-      "link": "test",
+      "title": "Test feature",
+      "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore perspiciatis est accusamus impedit quos laudantium magni? ",
+      "link": "#test",
       "icon": "VscVersions"
     }
   ]
