@@ -39,6 +39,39 @@ export default class Site extends App {
                     onLogin={onLogin}
                     onLogout={onLogout}
                     error={pageProps.error}>
+                    <style jsx global>{`
+                        @font-face {
+                            font-family: 'FuturaPT';
+                            src: url(/fonts/FuturaPTBook.woff2) format('woff2');
+                            font-weight: 400;
+                            font-style: normal;
+                            font-display: fallback;
+                        }
+                        @font-face {
+                            font-family: 'FuturaPT';
+                            src: url('/fonts/FuturaPTBookOblique.woff2')
+                                format('woff2');
+                            font-weight: 400;
+                            font-style: italic;
+                            font-display: fallback;
+                        }
+                        @font-face {
+                            font-family: 'FuturaPT';
+                            src: url('/fonts/FuturaPTMedium.woff2')
+                                format('woff2');
+                            font-weight: 500;
+                            font-style: normal;
+                            font-display: fallback;
+                        }
+                        @font-face {
+                            font-family: 'FuturaPT';
+                            src: url('/fonts/FuturaPTHeavy.woff2')
+                                format('woff2');
+                            font-weight: 600;
+                            font-style: normal;
+                            font-display: fallback;
+                        }
+                    `}</style>
                     <Component {...pageProps} cms={this.cms} />
                 </TinacmsGithubProvider>
             </TinaProvider>

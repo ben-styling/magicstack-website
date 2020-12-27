@@ -64,14 +64,6 @@ export default function Home({ file, cms }: any) {
 
     return (
         <>
-            <Head>
-                <title>magicSTACK | Configure less</title>
-                <link rel="icon" href="/favicon.ico" />
-                <link
-                    rel="stylesheet"
-                    href="https://use.typekit.net/urb2zft.css"
-                />
-            </Head>
 
             <Header />
 
