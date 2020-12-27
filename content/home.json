@@ -1,6 +1,6 @@
 {
   "title": "The all in one solution for local development",
-  "description": "Restarting PHP is a thing of the past with multi-PHP versions.\nFind bliss with a pre-configured development environment, automatic DNS resolution, ssl certificates, aliases and much more!",
+  "description": "Restarting PHP is a thing of the past with multi-PHP versions.\nFind bliss with a pre-configured development environment, automatic DNS resolution, ssl certificates, aliases and much more!test",
   "featureList": [
     {
       "title": "Test feature",
