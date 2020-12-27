@@ -34,6 +34,15 @@
     }
   ],
   "section1": {
-    "description": "Install within minutes, and get going FAST. Easy to setup multiple machines and have everyone on the same page. Compatible with Linux, Windows_, and macOS. \n\n  \n_*Works best on windows with WSL 2_"
+    "description": "Install within minutes, and get going FAST.  \nEasy to setup multiple machines and have everyone on the same page. Compatible with Linux, Windows*, and macOS.\n\n\\*Works best on windows with WSL 2.",
+    "title": "Develop more,\nconfigure less"
+  },
+  "featuresTitle": "magicSTACK is a full stack\nweb development environment",
+  "featuresDescription": "That works, like magic.",
+  "featuresLinkText": "And that’s just the start… Read the full docs > ",
+  "featuresLink": "http://magiclamp.app",
+  "section2": {
+    "title": "Experience zero\nconfig bliss",
+    "description": "magicSTACK has everything you need \nfor modern web development."
   }
 }
