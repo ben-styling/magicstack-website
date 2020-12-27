@@ -38,10 +38,13 @@ const renderFeatureCard = (f: any, index: number) => {
 const fields = [
     { name: 'title', component: 'text' },
     { name: 'description', component: 'textarea' },
-    { name: 'getStartedLink', component: 'text' },
-    { name: 'githubLink', component: 'text' },
-    { name: 'docsLink', component: 'text' },
-
+    {
+        name: 'featuresTitle',
+        component: 'textarea',
+        description:
+            'line breaks will be entered on desktop and removed at mobile.',
+    },
+    { name: 'featuresDescription', component: 'text' },
     {
         name: 'featureList',
         component: 'group-list',
@@ -85,24 +88,36 @@ const fields = [
 ]
 
 export default function Home({ homeFile, globalFile, cms }: any) {
-    const formOptions = {
+    const homeFormOptions = {
         label: 'Home Page',
         fields,
     }
-    const [content, contentForm] = useGithubJsonForm(homeFile, formOptions)
-    usePlugin(contentForm)
-    const [globalContent, globalContentForm] = useGithubJsonForm(globalFile, {
+    const globalFormOptions = {
         label: 'Global',
-        fields: [{ name: 'docsLink', component: 'text' }],
-    })
+        fields: [
+            { name: 'siteName', component: 'text' },
+            { name: 'githubLink', component: 'text' },
+            { name: 'docsLink', component: 'text' },
+            { name: 'getStartedLink', component: 'text' },
+        ],
+    }
+    const [content, contentForm] = useGithubJsonForm(homeFile, homeFormOptions)
+    const [globalContent, globalContentForm] = useGithubJsonForm(
+        globalFile,
+        globalFormOptions,
+    )
+    usePlugin(contentForm)
     usePlugin(globalContentForm)
-    console.log(globalContent)
     useGithubToolbarPlugins()
 
     return (
         <>
             <Head>
-                <title>magicSTACK | Configure less</title>
+                <title>
+                    {globalContent.siteName
+                        ? globalContent.siteName
+                        : 'magicSTACK | Configure less'}
+                </title>
             </Head>
             <Header />
 
@@ -117,12 +132,18 @@ export default function Home({ homeFile, globalFile, cms }: any) {
                             <div className="buttonGroup">
                                 <a
                                     className="button button--red"
-                                    href="https://magicstack.app/get-started">
+                                    href={
+                                        globalContent.getStartedLink ??
+                                        `https://magicstack.app/get-started`
+                                    }>
                                     Get started
                                 </a>
                                 <a
                                     className="button button--outline-black"
-                                    href="https://github.com/chrisnharvey/magicstack">
+                                    href={
+                                        globalContent.githubLink ??
+                                        `https://github.com/chrisnharvey/magicstack`
+                                    }>
                                     View on GitHub
                                 </a>
                             </div>
@@ -136,11 +157,17 @@ export default function Home({ homeFile, globalFile, cms }: any) {
                 <section className="like-magic">
                     <div className="container">
                         <h2 className="nobr">
-                            magicSTACK is a full stack <br />
-                            web development environment
+                            {content.featuresTitle
+                                ?.split?.('\n')
+                                ?.map?.((item: string, index: number) => (
+                                    <React.Fragment key={index}>
+                                        {item}
+                                        <br />
+                                    </React.Fragment>
+                                ))}
                         </h2>
                         <p className="is-large">
-                            That works <em>like</em> magic.
+                            {content.featuresDescription}
                         </p>
 
                         <div className="featureCardGrid">
@@ -214,22 +241,24 @@ export const getStaticProps: GetStaticProps = async function ({
     previewData,
 }) {
     if (preview) {
-        const contentFile = await getGithubPreviewProps({
-            ...previewData,
-            fileRelativePath: 'content/home.json',
-            parse: parseJson,
-        })
-
-        console.log(contentFile)
-
         return {
             props: {
-                ...contentFile.props,
+                error: null,
+                preview: true,
+                homeFile: (
+                    await getGithubPreviewProps({
+                        ...previewData,
+                        fileRelativePath: 'content/home.json',
+                        parse: parseJson,
+                        head_branch: 'main',
+                    })
+                ).props.file,
                 globalFile: (
                     await getGithubPreviewProps({
                         ...previewData,
-                        fileRelativePath: `content/global.json`,
+                        fileRelativePath: 'content/global.json',
                         parse: parseJson,
+                        head_branch: 'main',
                     })
                 ).props.file,
             },
