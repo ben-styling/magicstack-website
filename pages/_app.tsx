@@ -1,3 +1,4 @@
+import '../styles/global.scss'
 import { AppProps } from 'next/dist/next-server/lib/router/router'
 import dynamic from 'next/dynamic'
 import { TinaEditProvider } from 'tinacms/dist/edit-state'

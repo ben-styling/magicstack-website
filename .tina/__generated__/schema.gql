@@ -45,8 +45,12 @@ type Query {
   node(id: String): Node!
   getDocument(collection: String, relativePath: String): DocumentNode!
   getDocumentList(before: String, after: String, first: Int, last: Int): DocumentConnection!
+  getGlobalDocument(relativePath: String): GlobalDocument!
+  getGlobalList(before: String, after: String, first: Int, last: Int): GlobalConnection!
   getFeatureDocument(relativePath: String): FeatureDocument!
   getFeatureList(before: String, after: String, first: Int, last: Int): FeatureConnection!
+  getHomeDocument(relativePath: String): HomeDocument!
+  getHomeList(before: String, after: String, first: Int, last: Int): HomeConnection!
 }
 
 type DocumentConnectionEdges {
@@ -72,7 +76,62 @@ type Collection {
   documents(before: String, after: String, first: Int, last: Int): DocumentConnection!
 }
 
-union DocumentNode = FeatureDocument
+union DocumentNode = GlobalDocument | FeatureDocument | HomeDocument
+
+type GlobalHeaderNav {
+  href: String
+  label: String
+}
+
+type GlobalHeader {
+  color: String
+  nav: [GlobalHeaderNav]
+}
+
+type GlobalFooterSocial {
+  facebook: String
+  twitter: String
+  instagram: String
+  github: String
+}
+
+type GlobalFooter {
+  color: String
+  social: GlobalFooterSocial
+}
+
+type GlobalTheme {
+  color: String
+  font: String
+  icon: String
+  darkMode: String
+}
+
+type Global {
+  header: GlobalHeader
+  footer: GlobalFooter
+  theme: GlobalTheme
+}
+
+type GlobalDocument implements Node & Document {
+  id: ID!
+  sys: SystemInfo!
+  data: Global!
+  form: JSON!
+  values: JSON!
+  dataJSON: JSON!
+}
+
+type GlobalConnectionEdges {
+  cursor: String
+  node: GlobalDocument
+}
+
+type GlobalConnection implements Connection {
+  pageInfo: PageInfo
+  totalCount: Int!
+  edges: [GlobalConnectionEdges]
+}
 
 type Feature {
   title: String
@@ -99,19 +158,88 @@ type FeatureConnection implements Connection {
   edges: [FeatureConnectionEdges]
 }
 
+type Home {
+  title: String
+  description: String
+}
+
+type HomeDocument implements Node & Document {
+  id: ID!
+  sys: SystemInfo!
+  data: Home!
+  form: JSON!
+  values: JSON!
+  dataJSON: JSON!
+}
+
+type HomeConnectionEdges {
+  cursor: String
+  node: HomeDocument
+}
+
+type HomeConnection implements Connection {
+  pageInfo: PageInfo
+  totalCount: Int!
+  edges: [HomeConnectionEdges]
+}
+
 type Mutation {
   addPendingDocument(collection: String!, relativePath: String!, template: String): DocumentNode!
   updateDocument(collection: String!, relativePath: String!, params: DocumentMutation!): DocumentNode!
+  updateGlobalDocument(relativePath: String!, params: GlobalMutation!): GlobalDocument!
   updateFeatureDocument(relativePath: String!, params: FeatureMutation!): FeatureDocument!
+  updateHomeDocument(relativePath: String!, params: HomeMutation!): HomeDocument!
 }
 
 input DocumentMutation {
+  global: GlobalMutation
   feature: FeatureMutation
+  home: HomeMutation
+}
+
+input GlobalHeaderNavMutation {
+  href: String
+  label: String
+}
+
+input GlobalHeaderMutation {
+  color: String
+  nav: [GlobalHeaderNavMutation]
+}
+
+input GlobalFooterSocialMutation {
+  facebook: String
+  twitter: String
+  instagram: String
+  github: String
+}
+
+input GlobalFooterMutation {
+  color: String
+  social: GlobalFooterSocialMutation
+}
+
+input GlobalThemeMutation {
+  color: String
+  font: String
+  icon: String
+  darkMode: String
+}
+
+input GlobalMutation {
+  header: GlobalHeaderMutation
+  footer: GlobalFooterMutation
+  theme: GlobalThemeMutation
 }
 
 input FeatureMutation {
   title: String
   shortDescription: String
+}
+
+input HomeMutation {
+  title: String
+  description: String
 }
 
 schema {
