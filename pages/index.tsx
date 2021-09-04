@@ -3,17 +3,14 @@ import Hero from '../assets/hero.svg'
 import Text from '../components/Text'
 import React from 'react'
 import Header from '../components/Header'
-import Footer from '../components/Footer'
 import Develop from '../assets/develop.svg'
 import dynamic from 'next/dynamic'
 import ReactMarkdown from 'react-markdown'
-import { usePlugin } from 'tinacms'
 import { GetStaticProps } from 'next'
-import { getGithubPreviewProps, parseJson } from 'next-tinacms-github'
-import {
-    useGithubJsonForm,
-    useGithubToolbarPlugins,
-} from 'react-tinacms-github'
+
+
+import { getStaticPropsForTina } from 'tinacms'
+
 
 const renderFeatureCard = (f: any, index: number) => {
     const Icon = dynamic(
@@ -35,101 +32,48 @@ const renderFeatureCard = (f: any, index: number) => {
     )
 }
 
-const contentFields = [
-    { name: 'seoTitle', component: 'text' },
-    { name: 'seoDescription', component: 'text' },
-
-    { name: 'title', component: 'text' },
-    { name: 'description', component: 'textarea' },
-    {
-        name: 'featuresTitle',
-        component: 'textarea',
-        description:
-            'line breaks will be entered on desktop and removed at mobile.',
+const content = {
+    title: 'title',
+    seoTitle: 'seoTitle',
+    siteName: 'siteName',
+    seoDescription: 'seoDescription',
+    description: 'description',
+    getStartedLink: 'getStartedLink',
+    featuresTitle: 'featuresTitle',
+    featuresDescription: 'featuresDescription',
+    featureList: [
+        {
+            title: 'title',
+            description: 'description',
+            link: 'link',
+        }
+    ],
+    featuresLink: 'featuresLink',
+    featuresLinkText: 'featuresLinkText',
+    section1: {
+        title: 'title',
+        description: 'description',
     },
-    { name: 'featuresDescription', component: 'text' },
-    { name: 'featuresLinkText', component: 'text' },
-    { name: 'featuresLink', component: 'text' },
-    {
-        name: 'featureList',
-        component: 'group-list',
-        fields: [
-            {
-                name: 'icon',
-                component: 'select',
-                options: [
-                    {
-                        label: 'server',
-                        value: 'server',
-                    },
-                    {
-                        label: 'serverCluster',
-                        value: 'serverCluster',
-                    },
-                    {
-                        label: 'versions',
-                        value: 'versions',
-                    },
-                    {
-                        label: 'terminal',
-                        value: 'terminal',
-                    },
-                    {
-                        label: 'node',
-                        value: 'node',
-                    },
-                    {
-                        label: 'mail',
-                        value: 'mail',
-                    },
-                ],
-            },
-            {
-                name: 'title',
-                component: 'text',
-            },
-            {
-                name: 'description',
-                component: 'textarea',
-            },
-            {
-                name: 'link',
-                component: 'text',
-            },
-        ],
+    section2: {
+        title: 'title',
+        description: 'description',
     },
+    installLink: 'installLink',
+    githubLink: 'githubLink',
+}
 
-    { name: 'section1.title', component: 'textarea' },
-    { name: 'section1.description', component: 'markdown' },
-    { name: 'section2.title', component: 'textarea' },
-    { name: 'section2.description', component: 'textarea' },
-]
+const globalContent = {
+    siteName: 'siteName',
+    getStartedLink: 'getStartedLink',
+    githubLink: 'githubLink',
+    installLink: 'installLink',
+}
 
-const globalFields = [
-    { name: 'siteName', component: 'text' },
-    { name: 'githubLink', component: 'text' },
-    { name: 'docsLink', component: 'text' },
-    { name: 'getStartedLink', component: 'text' },
-    { name: 'installLink', component: 'text' },
-]
-export default function Home({ homeFile, globalFile, cms }: any) {
-    const homeFormOptions = {
-        label: 'Home Page',
-        fields: contentFields,
-    }
-    const globalFormOptions = {
-        label: 'Global',
-        fields: globalFields,
-    }
-    const [content, contentForm] = useGithubJsonForm(homeFile, homeFormOptions)
-    const [globalContent, globalContentForm] = useGithubJsonForm(
-        globalFile,
-        globalFormOptions,
-    )
-    usePlugin(contentForm)
-    usePlugin(globalContentForm)
-    useGithubToolbarPlugins()
-
+export default function Home({data}) {
+    console.log({data})
+    // console.log({'title': data.getFeatureDocument.data.title})
+    // console.log({'title': data.getFeatureDocument.data.title})
+    // console.log({'shortDescription':data.getFeatureDocument.data.shortDescription})
     return (
         <>
             <Head>
@@ -273,54 +217,84 @@ export default function Home({ homeFile, globalFile, cms }: any) {
                         </div>
                     </div>
                 </section>
-
-                <Footer cms={cms} />
             </div>
         </>
     )
 }
 
-export const getStaticProps: GetStaticProps = async function ({
-    preview,
-    previewData,
-}) {
-    if (preview) {
-        return {
-            props: {
-                error: null,
-                preview: true,
-                homeFile: (
-                    await getGithubPreviewProps({
-                        ...previewData,
-                        fileRelativePath: 'content/home.json',
-                        parse: parseJson,
-                        head_branch: 'main',
-                    })
-                ).props.file,
-                globalFile: (
-                    await getGithubPreviewProps({
-                        ...previewData,
-                        fileRelativePath: 'content/global.json',
-                        parse: parseJson,
-                        head_branch: 'main',
-                    })
-                ).props.file,
-            },
-        }
-    }
+
+
+export const getStaticProps: GetStaticProps = async (props) => {
+    // Get relative path name from slug from props somehow?
+    const relativePath = 'features' 
+
+    console.log({props})
+
+    const tinaProps = await getStaticPropsForTina({
+        query: `
+            query GetFeatures($relativePath: String!) {
+                getFeatureDocument(relativePath: $relativePath) {
+                    data {
+                        title
+                        shortDescription
+                    }
+                }
+            }
+        `,
+        variables: {
+            relativePath
+        },
+    })
+
     return {
         props: {
-            sourceProvider: null,
-            error: null,
-            preview: false,
-            homeFile: {
-                fileRelativePath: 'content/home.json',
-                data: (await import('../content/home.json')).default,
-            },
-            globalFile: {
-                fileRelativePath: 'content/global.json',
-                data: (await import('../content/global.json')).default,
-            },
-        },
+            ...tinaProps,
+        }
     }
 }
+
+
+// export const getStaticProps: GetStaticProps = async function ({
+//     preview,
+//     previewData,
+// }) {
+//     if (preview) {
+//         return {
+//             props: {
+//                 error: null,
+//                 preview: true,
+//                 homeFile: (
+//                     await getGithubPreviewProps({
+//                         ...previewData,
+//                         fileRelativePath: 'content/home.json',
+//                         parse: parseJson,
+//                         head_branch: 'main',
+//                     })
+//                 ).props.file,
+//                 globalFile: (
+//                     await getGithubPreviewProps({
+//                         ...previewData,
+//                         fileRelativePath: 'content/global.json',
+//                         parse: parseJson,
+//                         head_branch: 'main',
+//                     })
+//                 ).props.file,
+//             },
+//         }
+//     }
+//     return {
+//         props: {
+//             sourceProvider: null,
+//             error: null,
+//             preview: false,
+//             homeFile: {
+//                 fileRelativePath: 'content/home.json',
+//                 data: (await import('../content/home.json')).default,
+//             },
+//             globalFile: {
+//                 fileRelativePath: 'content/global.json',
+//                 data: (await import('../content/global.json')).default,
+//             },
+//         },
+//     }
+// }
