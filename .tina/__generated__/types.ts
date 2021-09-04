@@ -63,8 +63,12 @@ export type Query = {
   node: Node;
   getDocument: DocumentNode;
   getDocumentList: DocumentConnection;
+  getGlobalDocument: GlobalDocument;
+  getGlobalList: GlobalConnection;
   getFeatureDocument: FeatureDocument;
   getFeatureList: FeatureConnection;
+  getHomeDocument: HomeDocument;
+  getHomeList: HomeConnection;
 };
 
 
@@ -92,12 +96,38 @@ export type QueryGetDocumentListArgs = {
 };
 
 
+export type QueryGetGlobalDocumentArgs = {
+  relativePath?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryGetGlobalListArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
 export type QueryGetFeatureDocumentArgs = {
   relativePath?: Maybe<Scalars['String']>;
 };
 
 
 export type QueryGetFeatureListArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryGetHomeDocumentArgs = {
+  relativePath?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryGetHomeListArgs = {
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -138,7 +168,71 @@ export type CollectionDocumentsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-export type DocumentNode = FeatureDocument;
+export type DocumentNode = GlobalDocument | FeatureDocument | HomeDocument;
+
+export type GlobalHeaderNav = {
+  __typename?: 'GlobalHeaderNav';
+  href?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+};
+
+export type GlobalHeader = {
+  __typename?: 'GlobalHeader';
+  color?: Maybe<Scalars['String']>;
+  nav?: Maybe<Array<Maybe<GlobalHeaderNav>>>;
+};
+
+export type GlobalFooterSocial = {
+  __typename?: 'GlobalFooterSocial';
+  facebook?: Maybe<Scalars['String']>;
+  twitter?: Maybe<Scalars['String']>;
+  instagram?: Maybe<Scalars['String']>;
+  github?: Maybe<Scalars['String']>;
+};
+
+export type GlobalFooter = {
+  __typename?: 'GlobalFooter';
+  color?: Maybe<Scalars['String']>;
+  social?: Maybe<GlobalFooterSocial>;
+};
+
+export type GlobalTheme = {
+  __typename?: 'GlobalTheme';
+  color?: Maybe<Scalars['String']>;
+  font?: Maybe<Scalars['String']>;
+  icon?: Maybe<Scalars['String']>;
+  darkMode?: Maybe<Scalars['String']>;
+};
+
+export type Global = {
+  __typename?: 'Global';
+  header?: Maybe<GlobalHeader>;
+  footer?: Maybe<GlobalFooter>;
+  theme?: Maybe<GlobalTheme>;
+};
+
+export type GlobalDocument = Node & Document & {
+  __typename?: 'GlobalDocument';
+  id: Scalars['ID'];
+  sys: SystemInfo;
+  data: Global;
+  form: Scalars['JSON'];
+  values: Scalars['JSON'];
+  dataJSON: Scalars['JSON'];
+};
+
+export type GlobalConnectionEdges = {
+  __typename?: 'GlobalConnectionEdges';
+  cursor?: Maybe<Scalars['String']>;
+  node?: Maybe<GlobalDocument>;
+};
+
+export type GlobalConnection = Connection & {
+  __typename?: 'GlobalConnection';
+  pageInfo?: Maybe<PageInfo>;
+  totalCount: Scalars['Int'];
+  edges?: Maybe<Array<Maybe<GlobalConnectionEdges>>>;
+};
 
 export type Feature = {
   __typename?: 'Feature';
@@ -169,11 +263,42 @@ export type FeatureConnection = Connection & {
   edges?: Maybe<Array<Maybe<FeatureConnectionEdges>>>;
 };
 
+export type Home = {
+  __typename?: 'Home';
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type HomeDocument = Node & Document & {
+  __typename?: 'HomeDocument';
+  id: Scalars['ID'];
+  sys: SystemInfo;
+  data: Home;
+  form: Scalars['JSON'];
+  values: Scalars['JSON'];
+  dataJSON: Scalars['JSON'];
+};
+
+export type HomeConnectionEdges = {
+  __typename?: 'HomeConnectionEdges';
+  cursor?: Maybe<Scalars['String']>;
+  node?: Maybe<HomeDocument>;
+};
+
+export type HomeConnection = Connection & {
+  __typename?: 'HomeConnection';
+  pageInfo?: Maybe<PageInfo>;
+  totalCount: Scalars['Int'];
+  edges?: Maybe<Array<Maybe<HomeConnectionEdges>>>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addPendingDocument: DocumentNode;
   updateDocument: DocumentNode;
+  updateGlobalDocument: GlobalDocument;
   updateFeatureDocument: FeatureDocument;
+  updateHomeDocument: HomeDocument;
 };
 
 
@@ -191,17 +316,71 @@ export type MutationUpdateDocumentArgs = {
 };
 
 
+export type MutationUpdateGlobalDocumentArgs = {
+  relativePath: Scalars['String'];
+  params: GlobalMutation;
+};
+
+
 export type MutationUpdateFeatureDocumentArgs = {
   relativePath: Scalars['String'];
   params: FeatureMutation;
 };
 
+
+export type MutationUpdateHomeDocumentArgs = {
+  relativePath: Scalars['String'];
+  params: HomeMutation;
+};
+
 export type DocumentMutation = {
+  global?: Maybe<GlobalMutation>;
   feature?: Maybe<FeatureMutation>;
+  home?: Maybe<HomeMutation>;
+};
+
+export type GlobalHeaderNavMutation = {
+  href?: Maybe<Scalars['String']>;
+  label?: Maybe<Scalars['String']>;
+};
+
+export type GlobalHeaderMutation = {
+  color?: Maybe<Scalars['String']>;
+  nav?: Maybe<Array<Maybe<GlobalHeaderNavMutation>>>;
+};
+
+export type GlobalFooterSocialMutation = {
+  facebook?: Maybe<Scalars['String']>;
+  twitter?: Maybe<Scalars['String']>;
+  instagram?: Maybe<Scalars['String']>;
+  github?: Maybe<Scalars['String']>;
+};
+
+export type GlobalFooterMutation = {
+  color?: Maybe<Scalars['String']>;
+  social?: Maybe<GlobalFooterSocialMutation>;
+};
+
+export type GlobalThemeMutation = {
+  color?: Maybe<Scalars['String']>;
+  font?: Maybe<Scalars['String']>;
+  icon?: Maybe<Scalars['String']>;
+  darkMode?: Maybe<Scalars['String']>;
+};
+
+export type GlobalMutation = {
+  header?: Maybe<GlobalHeaderMutation>;
+  footer?: Maybe<GlobalFooterMutation>;
+  theme?: Maybe<GlobalThemeMutation>;
 };
 
 export type FeatureMutation = {
   title?: Maybe<Scalars['String']>;
   shortDescription?: Maybe<Scalars['String']>;
+};
+
+export type HomeMutation = {
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
 };
 

@@ -3,7 +3,9 @@
     "type": "DocumentConnection",
     "resolveType": "multiCollectionDocumentList",
     "collections": [
-      "feature"
+      "global",
+      "feature",
+      "home"
     ]
   },
   "Node": {
@@ -23,5 +25,25 @@
     "type": "FeatureConnection",
     "resolveType": "collectionDocumentList",
     "collection": "feature"
+  },
+  "HomeDocument": {
+    "type": "HomeDocument",
+    "resolveType": "collectionDocument",
+    "collection": "home"
+  },
+  "HomeConnection": {
+    "type": "HomeConnection",
+    "resolveType": "collectionDocumentList",
+    "collection": "home"
+  },
+  "GlobalDocument": {
+    "type": "GlobalDocument",
+    "resolveType": "collectionDocument",
+    "collection": "global"
+  },
+  "GlobalConnection": {
+    "type": "GlobalConnection",
+    "resolveType": "collectionDocumentList",
+    "collection": "global"
   }
 }

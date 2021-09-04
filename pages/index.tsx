@@ -69,8 +69,8 @@ const globalContent = {
     installLink: 'installLink',
 }
 
-export default function Home({data}) {
-    console.log({data})
+export default function Home({ data }) {
+    console.log({ data })
     // console.log({'title': data.getFeatureDocument.data.title})
     // console.log({'title': data.getFeatureDocument.data.title})
     // console.log({'shortDescription':data.getFeatureDocument.data.shortDescription})
@@ -225,25 +225,39 @@ export default function Home({data}) {
 
 
 export const getStaticProps: GetStaticProps = async (props) => {
-    // Get relative path name from slug from props somehow?
-    const relativePath = 'features' 
 
-    console.log({props})
+    console.log({ props })
 
     const tinaProps = await getStaticPropsForTina({
         query: `
-            query GetFeatures($relativePath: String!) {
-                getFeatureDocument(relativePath: $relativePath) {
+            query GetHomePage {
+                getHomeDocument(relativePath: "index.json") {
                     data {
                         title
-                        shortDescription
+                        description
+                        featureList {
+                            title
+                            description
+                            icon
+                        }
+                        section1 {
+                            title
+                            description
+                        }
+                        section2 {
+                            title
+                            description
+                        }
+                        featuresTitle
+                        featuresDescription
+                        featuresLinkText
+                        featuresLink
+                        seoTitle
+                        seoDescription
                     }
                 }
             }
-        `,
-        variables: {
-            relativePath
-        },
+        `
     })
 
     return {
