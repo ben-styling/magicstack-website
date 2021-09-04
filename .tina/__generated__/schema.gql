@@ -109,33 +109,11 @@ type GlobalHeaderNav {
 }
 
 type GlobalHeader {
-  color: String
   nav: [GlobalHeaderNav]
-}
-
-type GlobalFooterSocial {
-  facebook: String
-  twitter: String
-  instagram: String
-  github: String
-}
-
-type GlobalFooter {
-  color: String
-  social: GlobalFooterSocial
-}
-
-type GlobalTheme {
-  color: String
-  font: String
-  icon: String
-  darkMode: String
 }
 
 type Global {
   header: GlobalHeader
-  footer: GlobalFooter
-  theme: GlobalTheme
 }
 
 type GlobalDocument implements Node & Document {
@@ -208,33 +186,11 @@ input GlobalHeaderNavMutation {
 }
 
 input GlobalHeaderMutation {
-  color: String
   nav: [GlobalHeaderNavMutation]
-}
-
-input GlobalFooterSocialMutation {
-  facebook: String
-  twitter: String
-  instagram: String
-  github: String
-}
-
-input GlobalFooterMutation {
-  color: String
-  social: GlobalFooterSocialMutation
-}
-
-input GlobalThemeMutation {
-  color: String
-  font: String
-  icon: String
-  darkMode: String
 }
 
 input GlobalMutation {
   header: GlobalHeaderMutation
-  footer: GlobalFooterMutation
-  theme: GlobalThemeMutation
 }
 
 input FeatureMutation {
