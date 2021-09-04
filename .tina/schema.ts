@@ -196,24 +196,6 @@ const globalSchema: TinaCloudCollection = {
 
 export default defineSchema({
     collections: [
-        globalSchema,
-        {
-            label: 'Features',
-            name: 'feature',
-            path: 'content/features',
-            fields: [
-                {
-                    type: 'string',
-                    label: 'Title',
-                    name: 'title',
-                },
-                {
-                    type: 'string',
-                    label: 'Short description',
-                    name: 'shortDescription',
-                },
-            ],
-        },
         {
             label: 'Home',
             name: 'home',
@@ -229,6 +211,24 @@ export default defineSchema({
                     type: 'string',
                     label: 'description',
                     name: 'description',
+                },
+            ],
+        },
+        globalSchema,
+        {
+            label: 'Features',
+            name: 'feature',
+            path: 'content/features',
+            fields: [
+                {
+                    type: 'string',
+                    label: 'Title',
+                    name: 'title',
+                },
+                {
+                    type: 'string',
+                    label: 'Short description',
+                    name: 'shortDescription',
                 },
             ],
         },

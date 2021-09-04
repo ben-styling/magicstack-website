@@ -1,6 +1,35 @@
 {
   "collections": [
     {
+      "label": "Home",
+      "name": "home",
+      "path": "content/home",
+      "format": "json",
+      "fields": [
+        {
+          "type": "string",
+          "label": "Title",
+          "name": "title",
+          "namespace": [
+            "home",
+            "title"
+          ]
+        },
+        {
+          "type": "string",
+          "label": "description",
+          "name": "description",
+          "namespace": [
+            "home",
+            "description"
+          ]
+        }
+      ],
+      "namespace": [
+        "home"
+      ]
+    },
+    {
       "label": "Global",
       "name": "global",
       "path": "content/global",
@@ -318,35 +347,6 @@
       ],
       "namespace": [
         "feature"
-      ]
-    },
-    {
-      "label": "Home",
-      "name": "home",
-      "path": "content/home",
-      "format": "json",
-      "fields": [
-        {
-          "type": "string",
-          "label": "Title",
-          "name": "title",
-          "namespace": [
-            "home",
-            "title"
-          ]
-        },
-        {
-          "type": "string",
-          "label": "description",
-          "name": "description",
-          "namespace": [
-            "home",
-            "description"
-          ]
-        }
-      ],
-      "namespace": [
-        "home"
       ]
     }
   ],

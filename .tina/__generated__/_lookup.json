@@ -3,9 +3,9 @@
     "type": "DocumentConnection",
     "resolveType": "multiCollectionDocumentList",
     "collections": [
+      "home",
       "global",
-      "feature",
-      "home"
+      "feature"
     ]
   },
   "Node": {

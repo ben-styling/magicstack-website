@@ -63,12 +63,12 @@ export type Query = {
   node: Node;
   getDocument: DocumentNode;
   getDocumentList: DocumentConnection;
+  getHomeDocument: HomeDocument;
+  getHomeList: HomeConnection;
   getGlobalDocument: GlobalDocument;
   getGlobalList: GlobalConnection;
   getFeatureDocument: FeatureDocument;
   getFeatureList: FeatureConnection;
-  getHomeDocument: HomeDocument;
-  getHomeList: HomeConnection;
 };
 
 
@@ -96,6 +96,19 @@ export type QueryGetDocumentListArgs = {
 };
 
 
+export type QueryGetHomeDocumentArgs = {
+  relativePath?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryGetHomeListArgs = {
+  before?: Maybe<Scalars['String']>;
+  after?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
+};
+
+
 export type QueryGetGlobalDocumentArgs = {
   relativePath?: Maybe<Scalars['String']>;
 };
@@ -115,19 +128,6 @@ export type QueryGetFeatureDocumentArgs = {
 
 
 export type QueryGetFeatureListArgs = {
-  before?: Maybe<Scalars['String']>;
-  after?: Maybe<Scalars['String']>;
-  first?: Maybe<Scalars['Int']>;
-  last?: Maybe<Scalars['Int']>;
-};
-
-
-export type QueryGetHomeDocumentArgs = {
-  relativePath?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryGetHomeListArgs = {
   before?: Maybe<Scalars['String']>;
   after?: Maybe<Scalars['String']>;
   first?: Maybe<Scalars['Int']>;
@@ -168,7 +168,36 @@ export type CollectionDocumentsArgs = {
   last?: Maybe<Scalars['Int']>;
 };
 
-export type DocumentNode = GlobalDocument | FeatureDocument | HomeDocument;
+export type DocumentNode = HomeDocument | GlobalDocument | FeatureDocument;
+
+export type Home = {
+  __typename?: 'Home';
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+};
+
+export type HomeDocument = Node & Document & {
+  __typename?: 'HomeDocument';
+  id: Scalars['ID'];
+  sys: SystemInfo;
+  data: Home;
+  form: Scalars['JSON'];
+  values: Scalars['JSON'];
+  dataJSON: Scalars['JSON'];
+};
+
+export type HomeConnectionEdges = {
+  __typename?: 'HomeConnectionEdges';
+  cursor?: Maybe<Scalars['String']>;
+  node?: Maybe<HomeDocument>;
+};
+
+export type HomeConnection = Connection & {
+  __typename?: 'HomeConnection';
+  pageInfo?: Maybe<PageInfo>;
+  totalCount: Scalars['Int'];
+  edges?: Maybe<Array<Maybe<HomeConnectionEdges>>>;
+};
 
 export type GlobalHeaderNav = {
   __typename?: 'GlobalHeaderNav';
@@ -263,42 +292,13 @@ export type FeatureConnection = Connection & {
   edges?: Maybe<Array<Maybe<FeatureConnectionEdges>>>;
 };
 
-export type Home = {
-  __typename?: 'Home';
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-};
-
-export type HomeDocument = Node & Document & {
-  __typename?: 'HomeDocument';
-  id: Scalars['ID'];
-  sys: SystemInfo;
-  data: Home;
-  form: Scalars['JSON'];
-  values: Scalars['JSON'];
-  dataJSON: Scalars['JSON'];
-};
-
-export type HomeConnectionEdges = {
-  __typename?: 'HomeConnectionEdges';
-  cursor?: Maybe<Scalars['String']>;
-  node?: Maybe<HomeDocument>;
-};
-
-export type HomeConnection = Connection & {
-  __typename?: 'HomeConnection';
-  pageInfo?: Maybe<PageInfo>;
-  totalCount: Scalars['Int'];
-  edges?: Maybe<Array<Maybe<HomeConnectionEdges>>>;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   addPendingDocument: DocumentNode;
   updateDocument: DocumentNode;
+  updateHomeDocument: HomeDocument;
   updateGlobalDocument: GlobalDocument;
   updateFeatureDocument: FeatureDocument;
-  updateHomeDocument: HomeDocument;
 };
 
 
@@ -316,6 +316,12 @@ export type MutationUpdateDocumentArgs = {
 };
 
 
+export type MutationUpdateHomeDocumentArgs = {
+  relativePath: Scalars['String'];
+  params: HomeMutation;
+};
+
+
 export type MutationUpdateGlobalDocumentArgs = {
   relativePath: Scalars['String'];
   params: GlobalMutation;
@@ -327,16 +333,15 @@ export type MutationUpdateFeatureDocumentArgs = {
   params: FeatureMutation;
 };
 
-
-export type MutationUpdateHomeDocumentArgs = {
-  relativePath: Scalars['String'];
-  params: HomeMutation;
-};
-
 export type DocumentMutation = {
+  home?: Maybe<HomeMutation>;
   global?: Maybe<GlobalMutation>;
   feature?: Maybe<FeatureMutation>;
-  home?: Maybe<HomeMutation>;
+};
+
+export type HomeMutation = {
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
 };
 
 export type GlobalHeaderNavMutation = {
@@ -377,10 +382,5 @@ export type GlobalMutation = {
 export type FeatureMutation = {
   title?: Maybe<Scalars['String']>;
   shortDescription?: Maybe<Scalars['String']>;
-};
-
-export type HomeMutation = {
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
 };
 

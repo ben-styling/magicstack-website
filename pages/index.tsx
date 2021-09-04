@@ -32,7 +32,7 @@ const renderFeatureCard = (f: any, index: number) => {
     )
 }
 
-const content = {
+const staticContent = {
     title: 'title',
     seoTitle: 'seoTitle',
     siteName: 'siteName',
@@ -69,23 +69,20 @@ const globalContent = {
     installLink: 'installLink',
 }
 
-export default function Home({ data }) {
-    console.log({ data })
-    // console.log({'title': data.getFeatureDocument.data.title})
-    // console.log({'title': data.getFeatureDocument.data.title})
-    // console.log({'shortDescription':data.getFeatureDocument.data.shortDescription})
+export default function Home({ content }: any) {
+    console.log(content)
     return (
         <>
             <Head>
                 <title>
-                    {content.seoTitle ?? globalContent.siteName
+                    {staticContent.seoTitle ?? globalContent.siteName
                         ? globalContent.siteName
                         : 'magicSTACK | Configure less'}
                 </title>
                 <meta
                     name="description"
                     content={
-                        content.seoDescription ??
+                        staticContent.seoDescription ??
                         'Restarting PHP is a thing of the past with multi-PHP versions. Find bliss with a pre-configured development environment, automatic DNS resolution, ssl certificates, aliases and much more!'
                     }
                 />
@@ -98,7 +95,7 @@ export default function Home({ data }) {
                         <div>
                             <h1>{content?.title}</h1>
                             <Text className="is-large">
-                                {content.description}
+                                {content?.description}
                             </Text>
                             <div className="buttonGroup">
                                 <a
@@ -128,7 +125,7 @@ export default function Home({ data }) {
                 <section className="like-magic">
                     <div className="container">
                         <h2 className="nobr">
-                            {content.featuresTitle
+                            {staticContent.featuresTitle
                                 ?.split?.('\n')
                                 ?.map?.((item: string, index: number) => (
                                     <React.Fragment key={index}>
@@ -138,17 +135,17 @@ export default function Home({ data }) {
                                 ))}
                         </h2>
                         <p className="is-large">
-                            {content.featuresDescription}
+                            {staticContent.featuresDescription}
                         </p>
 
                         <div className="featureCardGrid">
-                            {content.featureList?.map?.(renderFeatureCard)}
+                            {staticContent.featureList?.map?.(renderFeatureCard)}
                         </div>
-                        {content.featuresLink && content.featuresLinkText ? (
+                        {staticContent.featuresLink && staticContent.featuresLinkText ? (
                             <a
                                 className="like-magic__link"
-                                href={content.featuresLink}>
-                                {content.featuresLinkText}
+                                href={staticContent.featuresLink}>
+                                {staticContent.featuresLinkText}
                             </a>
                         ) : null}
                     </div>
@@ -158,7 +155,7 @@ export default function Home({ data }) {
                     <div className="grid--2x2">
                         <div>
                             <h2>
-                                {content.section1.title
+                                {staticContent.section1.title
                                     ?.split?.('\n')
                                     ?.map?.((item: string, index: number) => (
                                         <React.Fragment key={index}>
@@ -169,7 +166,7 @@ export default function Home({ data }) {
                             </h2>
                             <div className="is-large">
                                 <ReactMarkdown
-                                    source={content.section1.description}
+                                    source={staticContent.section1.description}
                                 />
                             </div>
                         </div>
@@ -182,7 +179,7 @@ export default function Home({ data }) {
                 <section className="container section">
                     <div className="grid--2x2">
                         <h2>
-                            {content.section2?.title
+                            {staticContent.section2?.title
                                 ?.split?.('\n')
                                 ?.map?.((item: string, index: number) => (
                                     <React.Fragment key={index}>
@@ -193,7 +190,7 @@ export default function Home({ data }) {
                         </h2>
                         <div className="center-h">
                             <p className="is-large nobr">
-                                {content.section2?.description
+                                {staticContent.section2?.description
                                     ?.split?.('\n')
                                     ?.map?.((item: string, index: number) => (
                                         <React.Fragment key={index}>
@@ -224,9 +221,7 @@ export default function Home({ data }) {
 
 
 
-export const getStaticProps: GetStaticProps = async (props) => {
-
-    console.log({ props })
+export const getStaticProps: GetStaticProps = async () => {
 
     const tinaProps = await getStaticPropsForTina({
         query: `
@@ -235,25 +230,6 @@ export const getStaticProps: GetStaticProps = async (props) => {
                     data {
                         title
                         description
-                        featureList {
-                            title
-                            description
-                            icon
-                        }
-                        section1 {
-                            title
-                            description
-                        }
-                        section2 {
-                            title
-                            description
-                        }
-                        featuresTitle
-                        featuresDescription
-                        featuresLinkText
-                        featuresLink
-                        seoTitle
-                        seoDescription
                     }
                 }
             }
@@ -262,7 +238,7 @@ export const getStaticProps: GetStaticProps = async (props) => {
 
     return {
         props: {
-            ...tinaProps,
+            content: tinaProps?.data?.getHomeDocument?.data,
         }
     }
 }
