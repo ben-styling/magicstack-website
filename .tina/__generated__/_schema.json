@@ -1,0 +1,33 @@
+{
+  "collections": [
+    {
+      "label": "Features",
+      "name": "feature",
+      "path": "content/features",
+      "fields": [
+        {
+          "type": "string",
+          "label": "Title",
+          "name": "title",
+          "namespace": [
+            "feature",
+            "title"
+          ]
+        },
+        {
+          "type": "string",
+          "label": "Short description",
+          "name": "shortDescription",
+          "namespace": [
+            "feature",
+            "shortDescription"
+          ]
+        }
+      ],
+      "namespace": [
+        "feature"
+      ]
+    }
+  ],
+  "namespace": []
+}

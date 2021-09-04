@@ -1,0 +1,27 @@
+{
+  "DocumentConnection": {
+    "type": "DocumentConnection",
+    "resolveType": "multiCollectionDocumentList",
+    "collections": [
+      "feature"
+    ]
+  },
+  "Node": {
+    "type": "Node",
+    "resolveType": "nodeDocument"
+  },
+  "DocumentNode": {
+    "type": "DocumentNode",
+    "resolveType": "multiCollectionDocument"
+  },
+  "FeatureDocument": {
+    "type": "FeatureDocument",
+    "resolveType": "collectionDocument",
+    "collection": "feature"
+  },
+  "FeatureConnection": {
+    "type": "FeatureConnection",
+    "resolveType": "collectionDocumentList",
+    "collection": "feature"
+  }
+}
